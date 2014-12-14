@@ -5,6 +5,12 @@ node-4m
 
 [![npm version](https://badge.fury.io/js/mmmm.svg)](http://badge.fury.io/js/mmmm)
 
+## 我的场景说明
+
+监控日志里最后一行是否包含特定字符，并触发回调
+
+比如，监控日志里是否有finished字符，如果有，就给pub/sub服务器发送一个pub请求，继而由pub/sub服务器
+通知浏览器端，完成更新内容。
 
 ## Install 
 
