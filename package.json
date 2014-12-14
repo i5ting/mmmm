@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "start": "npm publish .",
-    "test": " node bin/mmmm.js -f file.log -e '/hadoop/g' -v"
+    "test": " node bin/mmmm.js -f file.log -e '/hadoop/g' -v",
+		"log":"find / -name 'java'>>file.log"
   },
   "repository": {
     "type": "git",
