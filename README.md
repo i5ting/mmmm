@@ -60,7 +60,8 @@ var done = function(str,res){
 }
 	
 var verbose = true;
-require('./index')(file, search_content_express, done,verbose)
+
+require('./index')(file, search_content_express, done, verbose)
 ```
 
 then open example.html with pub/sub
