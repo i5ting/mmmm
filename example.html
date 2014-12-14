@@ -1,0 +1,47 @@
+<script type="text/javascript" 
+        src="http://at35.com:4567/faye/client.js">
+        </script>
+<script type="text/javascript">
+  var client = new Faye.Client('http://at35.com:4567/faye', {
+    timeout : 120,
+        retry       : 5
+    });
+
+    Logger = {
+      incoming: function(message, callback) {
+        console.log('incoming', message);
+        callback(message);
+      },
+      outgoing: function(message, callback) {
+        console.log('outgoing', message);
+        callback(message);
+      }
+    };
+
+    client.addExtension(Logger);
+
+    client.on('transport:down', function() {
+      // the client is offline
+    });
+
+    client.on('transport:up', function() {
+      // the client is online
+    });
+
+
+    var subscription = client.subscribe('/foo', function(message) {
+      // handle message
+        console.log(message);
+    });
+
+    setTimeout(function(){
+        var publication = client.publish('/foo', {text: 'Hi there, foo test'});
+
+        publication.then(function() {
+          alert('Message received by server!');
+        }, function(error) {
+          alert('There was a problem: ' + error.message);
+        });
+
+    },2000);
+</script>
