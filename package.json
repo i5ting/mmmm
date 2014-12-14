@@ -1,7 +1,7 @@
 {
   "name": "mmmm",
-  "version": "1.0.0",
-  "description": "mmmm =============",
+  "version": "1.0.1",
+  "description": "4m for tail wrapper",
   "main": "index.js",
   "scripts": {
     "start": "npm publish .",
