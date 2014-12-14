@@ -5,6 +5,11 @@ node-4m
 
 [![npm version](https://badge.fury.io/js/mmmm.svg)](http://badge.fury.io/js/mmmm)
 
+
+## Install 
+
+	 npm install -g mmmm
+	 	 
 ## Usage
 
 第一步骤创建callback.js
