@@ -13,41 +13,35 @@ var version = require("../package.json").version;
 
 program
   .version(version)
-	.usage(" badge -n badge-cli -f [md] -t [npm] ")
-  .option('-f, --file [format]', '可选值：file.log')
+	.usage(" 4m -f file.log -e '/hadoop/g' -v ")
+  .option('-f, --file [file]', '可选值：file.log')
   .option('-e, --express [express]', '可选值：/ss/g ')
 	.option('-v, --verbose', '打印详细日志')
   .parse(process.argv);
 
 var module_name = '';
-if(isDefined(program.name) == true && typeof program.name == 'string' ){
-	module_name = program.name;
+if(isDefined(program.file) == true && typeof program.file == 'string' ){
+	module_name = program.file;
 }else{
-	console.log('没有知道模块名称，请重新输入,比如\n\t badge -n badge-cli -f [md] -t [npm] ');
+	console.log("没有知道模块名称，请重新输入,比如\n\t -f file.log -e '/hadoop/g' -v ");
 	return;
 }
 
-var format = "markdown";
-var type = "js";
+var file = "nohup.out";
+var express = eval("/log/g");
 
-if (program.format) {
-	format = program.format;
+if (program.file) {
+	file = program.file;
 }
 
-if (program.type) {
-	type = program.type;
+if (program.express) {
+	express = program.express;
+	express = eval(program.express);
 }
 
 var verbose = false;
 if (program.verbose) {
 	verbose = program.verbose;
-}
-
-var FORMATS = ['url', 'markdown', 'html', 'textile', 'rdoc', 'asciidoc', 'rst']
-
-if (FORMATS.contain(format) == false) {
-	console.log('-f 可选值：url, markdown（默认值）, html, textile, rdoc, asciidoc, rst');
-	return;
 }
 
 var _verbose = verbose;
@@ -57,10 +51,31 @@ function log(str){
 	}
 }
 
-log('format = ' + format);
-log('type = ' + type);
-log('name = ' + module_name);
+log('file = ' + file);
+log('express = ' + express);
 log('verbose = ' + verbose);
 
+var search_content_express = express
+	
+var done = function(str,res){
+	setTimeout(function(){
+		require('shelljs/global');
+		if (!test('-f', './callback.js')){
+			echo('Error: there is no callback.js in current dir');
+			return;
+		}
+		try{
+			var _cmd = 'node callback.js ' + str + ' '+file + ' ' + program.express;
+			if (exec(_cmd).code !== 0) {
+			  echo('Error: 4m callback failed');
+			  exit(1);
+			}
+		}catch(e){
+			console.log(e);
+		}
+	},0);
+}
+	
+var verbose = true;
 // main 
-require('../index')(module_name, type, format, verbose);
+require('../index')(file, search_content_express, done,verbose)

@@ -1,0 +1,1 @@
+console.log("i am callback.js. process.argv是: " + process.argv);
