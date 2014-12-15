@@ -16,6 +16,7 @@ program
 	.usage(" 4m -f file.log -e '/hadoop/g' -v ")
   .option('-f, --file [file]', '可选值：file.log')
   .option('-e, --express [express]', '可选值：/ss/g ')
+	.option('-c, --callback [callback]', '默认值：callback.js')
 	.option('-v, --verbose', '打印详细日志')
   .parse(process.argv);
 
@@ -28,6 +29,7 @@ if(isDefined(program.file) == true && typeof program.file == 'string' ){
 }
 
 var file = "nohup.out";
+var callback = "callback.js";
 var express = eval("/log/g");
 
 if (program.file) {
@@ -44,6 +46,10 @@ if (program.verbose) {
 	verbose = program.verbose;
 }
 
+if (program.callback) {
+	callback = program.callback;
+}
+
 var _verbose = verbose;
 function log(str){
 	if(_verbose == true){
@@ -51,8 +57,9 @@ function log(str){
 	}
 }
 
-log('file = ' + file);
-log('express = ' + express);
+log('tail file = ' + file);
+log('regexp express = ' + express);
+log('callback file = ' + callback);
 log('verbose = ' + verbose);
 
 var search_content_express = express
@@ -60,12 +67,14 @@ var search_content_express = express
 var done = function(str,res){
 	setTimeout(function(){
 		require('shelljs/global');
-		if (!test('-f', './callback.js')){
+		if (!test('-f', callback)){
 			echo('Error: there is no callback.js in current dir');
 			return;
 		}
 		try{
-			var _cmd = 'node callback.js ' + str + ' '+file + ' ' + program.express;
+			var _cmd = 'node ' + callback + ' ' + str + ' '+file + ' ' + program.express;
+			log('callback command = ' + _cmd);
+			
 			if (exec(_cmd).code !== 0) {
 			  echo('Error: 4m callback failed');
 			  exit(1);
